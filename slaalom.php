@@ -20,12 +20,14 @@ $kask->execute();
 
 <head>
     <title>Slaalom</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Slaalom</h1>
-    <table>
-        <?php 
+    <div class="container">
+        <h1>Slaalom</h1>
+        <table>
+            <?php 
  while($kask->fetch()){ 
  echo " 
  <tr> 
@@ -39,7 +41,8 @@ $kask->execute();
  "; 
 } 
  ?>
-    </table>
+        </table>
+    </div>
 </body>
 
 </html>
