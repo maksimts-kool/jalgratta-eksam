@@ -2,6 +2,7 @@
 $lehepealkiri = "Avaleht";
 require_once("konf.php");
 require_once("header.php");
+require_once("funktsioonid.php");
 
 // Statistika - kogus registreeritud
 $kask = $yhendus->prepare("SELECT COUNT(*) as kogus FROM jalgrattaeksam");
@@ -19,7 +20,7 @@ $kask2->close();
 ?>
 
 <div class="container">
-    <h1>🏠 Tervist!</h1>
+    <h1>Tervist!</h1>
 
     <div style="background-color: #3498db; color: white; padding: 30px; border-radius: 8px; margin: 20px 0;">
         <h2 style="color: white; border: none; margin-top: 0;">Jalgratta Eksami Süsteem</h2>
@@ -27,7 +28,7 @@ $kask2->close();
             testida oma teadmisi.</p>
     </div>
 
-    <h2>📊 Statistika</h2>
+    <h2>Statistika</h2>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
         <div style="background-color: #d5f4e6; padding: 20px; border-radius: 8px; text-align: center;">
             <h3 style="color: #27ae60; font-size: 2em; margin: 0;">
@@ -43,7 +44,7 @@ $kask2->close();
         </div>
     </div>
 
-    <h2>📋 Eksami etapid</h2>
+    <h2>Eksami etapid</h2>
     <table>
         <tr>
             <th>Järg</th>
@@ -83,9 +84,9 @@ $kask2->close();
         </tr>
     </table>
 
-    <h2>🚀 Alustamiseks</h2>
+    <h2>Alustamiseks</h2>
     <p>Klõpsa navigatsioonile "<strong>Registreerimine</strong>" ja sisesta oma nimi!</p>
-    <a href="registreerimine.php" class="btn">📝 Registreeri nüüd</a>
+    <a href="registreerimine.php" class="btn">Registreeri nüüd</a>
 </div>
 
 <?php require_once("footer.php"); ?>

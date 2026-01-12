@@ -1,20 +1,20 @@
 <?php
 $lehepealkiri = "Teooriaeksam";
 require_once("konf.php");
+require_once("funktsioonid.php");
 require_once("header.php");
 
 $teade = "";
 $viga = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["teooriatulemus"]) && !empty($_POST["id"])){ 
-  $tulemus = (int)$_POST["teooriatulemus"];
+if(onPostPäring() && !empty($_POST["teooriatulemus"]) && !empty($_POST["id"])){ 
+  $tulemus = $_POST["teooriatulemus"];
   $id = (int)$_POST["id"];
   
-  if($tulemus < 0 || $tulemus > 10) {
-    $viga = "Tulemus peab olema 0-10!";
-  }
-  elseif($tulemus < 9) {
-    $viga = "❌ Vajalik on vähemalt 9 punkti! Saite ainult $tulemus punkti.";
+  $valideeriTulemus = valideeriTeooriaTulemus($tulemus);
+  
+  if(!$valideeriTulemus['edukas']) {
+    $viga = $valideeriTulemus['sõnum'];
   }
   else {
     $kask = $yhendus->prepare(
@@ -48,12 +48,8 @@ while($kask->fetch()) {
     <h1>📚 Teooriaeksam</h1>
 
     <?php 
-  if($viga) { 
-    echo "<div class='viga'>$viga</div>"; 
-  }
-  if($teade) { 
-    echo "<div class='edukas'>$teade</div>"; 
-  }
+  echo kuvaTeade('viga', $viga);
+  echo kuvaTeade('edukas', $teade);
   ?>
 
     <div class="info">
@@ -76,8 +72,8 @@ while($kask->fetch()) {
 
         <?php foreach($osalejaread as $osaleja) { ?>
         <tr>
-            <td><?php echo htmlspecialchars($osaleja['eesnimi']); ?></td>
-            <td><?php echo htmlspecialchars($osaleja['perekonnanimi']); ?></td>
+            <td><?php echo turvTekst($osaleja['eesnimi']); ?></td>
+            <td><?php echo turvTekst($osaleja['perekonnanimi']); ?></td>
             <td>
                 <form method="POST" style="display: flex; gap: 10px;">
                     <input type="hidden" name="id" value="<?php echo $osaleja['id']; ?>" />

@@ -17,7 +17,7 @@ if (!isset($lehepealkiri)) {
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <h1>🚴 Jalgratta Eksam</h1>
+                <h1>Jalgratta Eksam</h1>
                 <p class="tagline">Testi oma teadmisi ja oskusi</p>
             </div>
         </div>

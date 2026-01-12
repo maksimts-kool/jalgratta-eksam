@@ -1,19 +1,23 @@
 <?php
 $lehepealkiri = "Registreerimine";
 require_once("konf.php");
+require_once("funktsioonid.php");
 require_once("header.php");
 
 $viga = "";
 
-if(isset($_REQUEST["sisestusnupp"])){ 
-  $eesnimi = trim($_REQUEST["eesnimi"] ?? "");
-  $perekonnanimi = trim($_REQUEST["perekonnanimi"] ?? "");
+if(isset($_POST["sisestusnupp"])){ 
+  $eesnimi = getPOST("eesnimi");
+  $perekonnanimi = getPOST("perekonnanimi");
   
-  if(empty($eesnimi) || strlen($eesnimi) < 3) {
-    $viga = "Eesnimi peab olema vähemalt 3 tähemärki!";
+  $validateesnimi = valideeriNimi($eesnimi);
+  $validateperekonnanimi = valideeriNimi($perekonnanimi);
+  
+  if(!$validateesnimi['edukas']) {
+    $viga = "Eesnimi: " . $validateesnimi['sõnum'];
   } 
-  elseif(empty($perekonnanimi) || strlen($perekonnanimi) < 3) {
-    $viga = "Perekonnanimi peab olema vähemalt 3 tähemärki!";
+  elseif(!$validateperekonnanimi['edukas']) {
+    $viga = "Perekonnanimi: " . $validateperekonnanimi['sõnum'];
   }
   else {
     $kask = $yhendus->prepare(
@@ -33,10 +37,10 @@ if(isset($_REQUEST["sisestusnupp"])){
 
     <?php 
   if($viga) { 
-    echo "<div class='viga'>❌ $viga</div>"; 
+    echo kuvaTeade('viga', "❌ $viga");
   }
-  if(isset($_REQUEST["lisatudeesnimi"])) { 
-    echo "<div class='edukas'>✓ Kasutaja $_REQUEST[lisatudeesnimi] lisati edukalt!</div>"; 
+  if(isset($_GET["lisatudeesnimi"])) { 
+    echo kuvaTeade('edukas', "✓ Kasutaja " . turvTekst($_GET["lisatudeesnimi"]) . " lisati edukalt!");
   }
   ?>
 

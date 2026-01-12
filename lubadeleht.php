@@ -1,13 +1,14 @@
 <?php
 $lehepealkiri = "Lubade Väljastus";
 require_once("konf.php");
+require_once("funktsioonid.php");
 require_once("header.php");
 
 $teade = "";
 $viga = "";
 
 // Luba väljastamine
-if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["vormistamine_id"])){ 
+if(onPostPäring() && !empty($_POST["vormistamine_id"])){ 
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET luba=1 WHERE id=?"); 
   $kask->bind_param("i", $_POST["vormistamine_id"]); 
   $kask->execute(); 
@@ -15,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["vormistamine_id"])){
 } 
 
 // Kustutamine
-if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["kustuta_id"])){ 
+if(onPostPäring() && !empty($_POST["kustuta_id"])){ 
   $kask = $yhendus->prepare("DELETE FROM jalgrattaeksam WHERE id=?"); 
   $kask->bind_param("i", $_POST["kustuta_id"]); 
   $kask->execute(); 
@@ -27,21 +28,14 @@ $kask = $yhendus->prepare(
 ); 
 $kask->bind_result($id, $eesnimi, $perekonnanimi, $teooriatulemus, $slaalom, $ringtee, $t2nav, $luba); 
 $kask->execute(); 
-
-function asenda($nr){ 
-  if($nr==-1){return "<span class='badge badge-warning'>⏳ Tegemata</span>";} 
-  if($nr==1){return "<span class='badge badge-success'>✓ Korras</span>";} 
-  if($nr==2){return "<span class='badge badge-danger'>✗ Ebaõnnestunud</span>";}
-  return "Tundmatu"; 
-}
 ?>
 
 <div class="container">
     <h1>📜 Lubade Väljastus</h1>
 
     <?php 
-  if($viga) echo "<div class='viga'>$viga</div>"; 
-  if($teade) echo "<div class='edukas'>$teade</div>"; 
+  echo kuvaTeade('viga', $viga);
+  echo kuvaTeade('edukas', $teade);
   ?>
 
     <table>
@@ -57,7 +51,7 @@ function asenda($nr){
         </tr>
 
         <?php while($kask->fetch()) { 
-      $voib_lubada = ($teooriatulemus >= 9 && $slaalom == 1 && $ringtee == 1 && $t2nav == 1 && $luba == -1);
+      $voib_lubada = kontrollilubaMögus($teooriatulemus, $slaalom, $ringtee, $t2nav, $luba);
       $luba_link = ".";
       
       if($voib_lubada) {
@@ -70,8 +64,8 @@ function asenda($nr){
       }
     ?>
         <tr>
-            <td><?php echo htmlspecialchars($eesnimi); ?></td>
-            <td><?php echo htmlspecialchars($perekonnanimi); ?></td>
+            <td><?php echo turvTekst($eesnimi); ?></td>
+            <td><?php echo turvTekst($perekonnanimi); ?></td>
             <td><?php echo ($teooriatulemus == -1) ? "⏳" : "$teooriatulemus/10"; ?></td>
             <td><?php echo asenda($slaalom); ?></td>
             <td><?php echo asenda($ringtee); ?></td>

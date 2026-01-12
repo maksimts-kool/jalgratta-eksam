@@ -2,6 +2,7 @@
 $lehepealkiri = "Slaalom";
 require_once("konf.php");
 require_once("header.php");
+require_once("funktsioonid.php");
 
 $teade = "";
 

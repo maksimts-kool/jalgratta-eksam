@@ -203,7 +203,6 @@ input[type="submit"],
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    transition: all 0.3s ease;
     display: inline-block;
     text-decoration: none;
 }
@@ -212,7 +211,6 @@ input[type="submit"]:hover,
 .btn:hover {
     background-color: #229954;
     color: white;
-    transform: translateY(-3px);
     box-shadow: 0 8px 15px rgba(39, 174, 96, 0.3);
 }
 
