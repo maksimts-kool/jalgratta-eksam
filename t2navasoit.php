@@ -1,26 +1,26 @@
 <?php
-$lehepealkiri = "Slaalom";
+$lehepealkiri = "Tänavasõit";
 require_once("konf.php");
 require_once("header.php");
 
 $teade = "";
 
 if(!empty($_REQUEST["korras_id"])){ 
-  $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET slaalom=1 WHERE id=?"); 
+  $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET t2nav=1 WHERE id=?"); 
   $kask->bind_param("i", $_REQUEST["korras_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
 } 
 
 if(!empty($_REQUEST["vigane_id"])){ 
-  $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET slaalom=2 WHERE id=?"); 
+  $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET t2nav=2 WHERE id=?"); 
   $kask->bind_param("i", $_REQUEST["vigane_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
 } 
 
 $kask = $yhendus->prepare(
-  "SELECT id, eesnimi, perekonnanimi FROM jalgrattaeksam WHERE teooriatulemus>=9 AND slaalom=-1"
+  "SELECT id, eesnimi, perekonnanimi FROM jalgrattaeksam WHERE slaalom=1 AND ringtee=1 AND t2nav=-1"
 ); 
 $kask->bind_result($id, $eesnimi, $perekonnanimi); 
 $kask->execute(); 
@@ -32,16 +32,16 @@ while($kask->fetch()) {
 ?>
 
 <div class="container">
-    <h1>🏁 Slaalom</h1>
+    <h1>🛣️ Tänavasõit</h1>
 
     <?php if($teade) echo "<div class='edukas'>$teade</div>"; ?>
 
     <div class="info">
-        Kontrollige slaalomsõitu ja märkige tulemus.
+        Kontrollige tänavasõitu ja märkige tulemus.
     </div>
 
     <?php if(empty($osalejaread)) { ?>
-    <div class="edukas">✓ Kõik osalejad on slaalomsõidu sooritanud!</div>
+    <div class="edukas">✓ Kõik osalejad on tänavasõidu sooritanud!</div>
     <?php } else { ?>
 
     <table>

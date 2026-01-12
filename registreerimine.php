@@ -1,5 +1,7 @@
-<?php  
-require_once("konf.php");  
+<?php
+$lehepealkiri = "Registreerimine";
+require_once("konf.php");
+require_once("header.php");
 
 $viga = "";
 
@@ -20,52 +22,47 @@ if(isset($_REQUEST["sisestusnupp"])){
     $kask->bind_param("ss", $eesnimi, $perekonnanimi); 
     $kask->execute(); 
     
-    header("Location: $_SERVER[PHP_SELF]?lisatudeesnimi=$eesnimi"); 
+    header("Location: teooriaeksam.php?lisatudeesnimi=$eesnimi"); 
     exit(); 
   } 
-} 
+}
 ?>
-<!doctype html>
-<html>
 
-<head>
-    <title>Kasutaja registreerimine</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
+<div class="container">
+    <h1>📝 Registreerimine</h1>
 
-<body>
-    <div class="container">
-        <h1>Registreerimine</h1>
-
-        <?php 
+    <?php 
   if($viga) { 
-    echo "<p class='viga'>❌ $viga</p>"; 
+    echo "<div class='viga'>❌ $viga</div>"; 
   }
   if(isset($_REQUEST["lisatudeesnimi"])) { 
-    echo "<p class='edukas'>✓ Kasutaja $_REQUEST[lisatudeesnimi] lisati edukalt!</p>"; 
-  } 
+    echo "<div class='edukas'>✓ Kasutaja $_REQUEST[lisatudeesnimi] lisati edukalt!</div>"; 
+  }
   ?>
 
-        <form action="?">
-            <dl>
-                <dt>Eesnimi:</dt>
-                <dd>
-                    <input type="text" name="eesnimi" minlength="3" required />
-                    <small>(min 3 tähemärki)</small>
-                </dd>
-
-                <dt>Perekonnanimi:</dt>
-                <dd>
-                    <input type="text" name="perekonnanimi" minlength="3" required />
-                    <small>(min 3 tähemärki)</small>
-                </dd>
-
-                <dt>
-                    <input type="submit" name="sisestusnupp" value="Registreeri" />
-                </dt>
-            </dl>
-        </form>
+    <div class="info">
+        <strong>ℹ️ Teave:</strong> Pärast registreerumist suunatakse sind teooriaeksamile.
     </div>
-</body>
 
-</html>
+    <form method="POST">
+        <dl>
+            <dt>👤 Eesnimi</dt>
+            <dd>
+                <input type="text" name="eesnimi" minlength="3" required placeholder="Näiteks: Jaan" />
+                <small>Vähemalt 3 tähemärki</small>
+            </dd>
+
+            <dt>👤 Perekonnanimi</dt>
+            <dd>
+                <input type="text" name="perekonnanimi" minlength="3" required placeholder="Näiteks: Tamm" />
+                <small>Vähemalt 3 tähemärki</small>
+            </dd>
+
+            <dt>
+                <input type="submit" name="sisestusnupp" value="Registreeri" />
+            </dt>
+        </dl>
+    </form>
+</div>
+
+<?php require_once("footer.php"); ?>
