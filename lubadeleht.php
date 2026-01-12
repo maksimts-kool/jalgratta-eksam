@@ -7,17 +7,17 @@ $teade = "";
 $viga = "";
 
 // Luba väljastamine
-if(!empty($_REQUEST["vormistamine_id"])){ 
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["vormistamine_id"])){ 
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET luba=1 WHERE id=?"); 
-  $kask->bind_param("i", $_REQUEST["vormistamine_id"]); 
+  $kask->bind_param("i", $_POST["vormistamine_id"]); 
   $kask->execute(); 
   $teade = "✓ Luba väljastatud!";
 } 
 
 // Kustutamine
-if(!empty($_REQUEST["kustuta_id"])){ 
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["kustuta_id"])){ 
   $kask = $yhendus->prepare("DELETE FROM jalgrattaeksam WHERE id=?"); 
-  $kask->bind_param("i", $_REQUEST["kustuta_id"]); 
+  $kask->bind_param("i", $_POST["kustuta_id"]); 
   $kask->execute(); 
   $teade = "✓ Osaleja kustutatud!";
 } 
@@ -61,7 +61,10 @@ function asenda($nr){
       $luba_link = ".";
       
       if($voib_lubada) {
-        $luba_link = "<a href='?vormistamine_id=$id' class='btn btn-info'>📜 Väljasta luba</a>";
+        $luba_link = "<form method='POST' style='display:inline;'>" .
+                     "<input type='hidden' name='vormistamine_id' value='$id' />" .
+                     "<input type='submit' value='📜 Väljasta luba' class='btn btn-info' />" .
+                     "</form>";
       } elseif($luba == 1) {
         $luba_link = "<span class='badge badge-success'>✓ Väljastatud</span>";
       }
@@ -75,8 +78,11 @@ function asenda($nr){
             <td><?php echo asenda($t2nav); ?></td>
             <td><?php echo $luba_link; ?></td>
             <td>
-                <a href="?kustuta_id=<?php echo $id; ?>" class="btn btn-danger"
-                    onclick="return confirm('Kustuta osaleja?')">🗑️ Kustuta</a>
+                <form method="POST" style="display: inline;">
+                    <input type="hidden" name="kustuta_id" value="<?php echo $id; ?>" />
+                    <input type="submit" value="🗑️ Kustuta" class="btn btn-danger"
+                        onclick="return confirm('Kustuta osaleja?')" />
+                </form>
             </td>
         </tr>
         <?php } ?>

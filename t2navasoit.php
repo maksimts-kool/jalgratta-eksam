@@ -5,16 +5,16 @@ require_once("header.php");
 
 $teade = "";
 
-if(!empty($_REQUEST["korras_id"])){ 
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["korras_id"])){ 
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET t2nav=1 WHERE id=?"); 
-  $kask->bind_param("i", $_REQUEST["korras_id"]); 
+  $kask->bind_param("i", $_POST["korras_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
 } 
 
-if(!empty($_REQUEST["vigane_id"])){ 
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["vigane_id"])){ 
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET t2nav=2 WHERE id=?"); 
-  $kask->bind_param("i", $_REQUEST["vigane_id"]); 
+  $kask->bind_param("i", $_POST["vigane_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
 } 
@@ -56,8 +56,14 @@ while($kask->fetch()) {
             <td><?php echo htmlspecialchars($osaleja['eesnimi']); ?></td>
             <td><?php echo htmlspecialchars($osaleja['perekonnanimi']); ?></td>
             <td>
-                <a href="?korras_id=<?php echo $osaleja['id']; ?>" class="btn btn-info">✓ Korras</a>
-                <a href="?vigane_id=<?php echo $osaleja['id']; ?>" class="btn btn-danger">✗ Ebaõnnestunud</a>
+                <form method="POST" style="display: flex; gap: 10px;">
+                    <input type="hidden" name="korras_id" value="<?php echo $osaleja['id']; ?>" />
+                    <input type="submit" value="✓ Korras" class="btn btn-info" />
+                </form>
+                <form method="POST" style="display: flex; gap: 10px;">
+                    <input type="hidden" name="vigane_id" value="<?php echo $osaleja['id']; ?>" />
+                    <input type="submit" value="✗ Ebaõnnestunud" class="btn btn-danger" />
+                </form>
             </td>
         </tr>
         <?php } ?>

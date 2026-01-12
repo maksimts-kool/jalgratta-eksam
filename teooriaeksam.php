@@ -6,9 +6,9 @@ require_once("header.php");
 $teade = "";
 $viga = "";
 
-if(!empty($_REQUEST["teooriatulemus"]) && !empty($_REQUEST["id"])){ 
-  $tulemus = (int)$_REQUEST["teooriatulemus"];
-  $id = (int)$_REQUEST["id"];
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["teooriatulemus"]) && !empty($_POST["id"])){ 
+  $tulemus = (int)$_POST["teooriatulemus"];
+  $id = (int)$_POST["id"];
   
   if($tulemus < 0 || $tulemus > 10) {
     $viga = "Tulemus peab olema 0-10!";
