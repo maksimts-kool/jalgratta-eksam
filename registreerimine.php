@@ -30,23 +30,14 @@ if(isset($_REQUEST["sisestusnupp"])){
 
 <head>
     <title>Kasutaja registreerimine</title>
-    <style>
-    .viga {
-        color: red;
-        font-weight: bold;
-    }
-
-    .edukas {
-        color: green;
-        font-weight: bold;
-    }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <h1>Registreerimine</h1>
+    <div class="container">
+        <h1>Registreerimine</h1>
 
-    <?php 
+        <?php 
   if($viga) { 
     echo "<p class='viga'>❌ $viga</p>"; 
   }
@@ -55,25 +46,26 @@ if(isset($_REQUEST["sisestusnupp"])){
   } 
   ?>
 
-    <form action="?">
-        <dl>
-            <dt>Eesnimi:</dt>
-            <dd>
-                <input type="text" name="eesnimi" minlength="3" required />
-                <small>(min 3 tähemärki)</small>
-            </dd>
+        <form action="?">
+            <dl>
+                <dt>Eesnimi:</dt>
+                <dd>
+                    <input type="text" name="eesnimi" minlength="3" required />
+                    <small>(min 3 tähemärki)</small>
+                </dd>
 
-            <dt>Perekonnanimi:</dt>
-            <dd>
-                <input type="text" name="perekonnanimi" minlength="3" required />
-                <small>(min 3 tähemärki)</small>
-            </dd>
+                <dt>Perekonnanimi:</dt>
+                <dd>
+                    <input type="text" name="perekonnanimi" minlength="3" required />
+                    <small>(min 3 tähemärki)</small>
+                </dd>
 
-            <dt>
-                <input type="submit" name="sisestusnupp" value="Registreeri" />
-            </dt>
-        </dl>
-    </form>
+                <dt>
+                    <input type="submit" name="sisestusnupp" value="Registreeri" />
+                </dt>
+            </dl>
+        </form>
+    </div>
 </body>
 
 </html>
