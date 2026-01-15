@@ -6,8 +6,6 @@ require_once("funktsioonid.php");
 
 suunaKuiSissologitud('index.php');
 
-require_once("header.php");
-
 $viga = "";
 $edu = "";
 
@@ -24,6 +22,8 @@ if(isset($_POST["login_nupp"])){
         $viga = $tulemus['sõnum'];
     }
 }
+
+require_once("header.php");
 ?>
 
 <div class="container">
@@ -35,6 +35,9 @@ if(isset($_POST["login_nupp"])){
     }
     if(isset($_GET['logout'])) { 
         echo kuvaTeade('edukas', "✓ Välja logitud!");
+    }
+    if(isset($_GET['registered'])) { 
+        echo kuvaTeade('edukas', "✓ Registreerimine õnnestus! Oled automaatselt eksamile registreeritud. Logi nüüd sisse.");
     }
     if(isset($_GET['nouab_sisselogimist'])) { 
         echo kuvaTeade('info', "ℹ️ See leht nõuab sisselogimist!");

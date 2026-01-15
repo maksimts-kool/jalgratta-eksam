@@ -6,8 +6,6 @@ require_once("funktsioonid.php");
 
 suunaKuiSissologitud('index.php');
 
-require_once("header.php");
-
 $viga = "";
 $edu = "";
 
@@ -45,13 +43,15 @@ if(isset($_POST["regist_nupp"])){
             $kask->execute();
             $kask->close();
             
-            $edu = $tulemus['sõnum'] . " Oled automaatselt eksamile registreeritud!";
-            echo "<meta http-equiv='refresh' content='2;url=login.php'>'";
+            header("Location: login.php?registered=1");
+            exit();
         } else {
             $viga = $tulemus['sõnum'];
         }
     }
 }
+
+require_once("header.php");
 ?>
 
 <div class="container">
