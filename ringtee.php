@@ -1,23 +1,31 @@
 <?php
 $lehepealkiri = "Ringtee";
 require_once("konf.php");
-require_once("header.php");
+require_once("auth.php");
 require_once("funktsioonid.php");
+
+nouaSisselogimist('login.php?nouab_sisselogimist=1');
+
+require_once("header.php");
 
 $teade = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["korras_id"])){ 
+  if(onAdmin()) {
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET ringtee=1 WHERE id=?"); 
   $kask->bind_param("i", $_POST["korras_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
+  }
 } 
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["vigane_id"])){ 
+  if(onAdmin()) {
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET ringtee=2 WHERE id=?"); 
   $kask->bind_param("i", $_POST["vigane_id"]); 
   $kask->execute(); 
   $teade = "✓ Tulemus sisestatud!";
+  }
 } 
 
 $kask = $yhendus->prepare(
@@ -57,6 +65,7 @@ while($kask->fetch()) {
             <td><?php echo htmlspecialchars($osaleja['eesnimi']); ?></td>
             <td><?php echo htmlspecialchars($osaleja['perekonnanimi']); ?></td>
             <td>
+                <?php if(onAdmin()): ?>
                 <form method="POST" style="display: flex; gap: 10px;">
                     <input type="hidden" name="korras_id" value="<?php echo $osaleja['id']; ?>" />
                     <input type="submit" value="✓ Korras" class="btn btn-info" />
@@ -65,6 +74,9 @@ while($kask->fetch()) {
                     <input type="hidden" name="vigane_id" value="<?php echo $osaleja['id']; ?>" />
                     <input type="submit" value="✗ Ebaõnnestunud" class="btn btn-danger" />
                 </form>
+                <?php else: ?>
+                ⏳ Ootel
+                <?php endif; ?>
             </td>
         </tr>
         <?php } ?>

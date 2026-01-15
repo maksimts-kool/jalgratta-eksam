@@ -1,26 +1,32 @@
 <?php
 $lehepealkiri = "Lubade Väljastus";
 require_once("konf.php");
+require_once("auth.php");
 require_once("funktsioonid.php");
+
+nouaSisselogimist('login.php?nouab_sisselogimist=1');
+
 require_once("header.php");
 
 $teade = "";
 $viga = "";
 
-// Luba väljastamine
 if(onPostPäring() && !empty($_POST["vormistamine_id"])){ 
+  if(onAdmin()) {
   $kask = $yhendus->prepare("UPDATE jalgrattaeksam SET luba=1 WHERE id=?"); 
   $kask->bind_param("i", $_POST["vormistamine_id"]); 
   $kask->execute(); 
   $teade = "✓ Luba väljastatud!";
+  }
 } 
 
-// Kustutamine
 if(onPostPäring() && !empty($_POST["kustuta_id"])){ 
+  if(onAdmin()) {
   $kask = $yhendus->prepare("DELETE FROM jalgrattaeksam WHERE id=?"); 
   $kask->bind_param("i", $_POST["kustuta_id"]); 
   $kask->execute(); 
   $teade = "✓ Osaleja kustutatud!";
+  }
 } 
 
 $kask = $yhendus->prepare(
@@ -54,11 +60,13 @@ $kask->execute();
       $voib_lubada = kontrollilubaMögus($teooriatulemus, $slaalom, $ringtee, $t2nav, $luba);
       $luba_link = ".";
       
-      if($voib_lubada) {
+      if($voib_lubada && onAdmin()) {
         $luba_link = "<form method='POST' style='display:inline;'>" .
                      "<input type='hidden' name='vormistamine_id' value='$id' />" .
                      "<input type='submit' value='📜 Väljasta luba' class='btn btn-info' />" .
                      "</form>";
+      } elseif($voib_lubada && !onAdmin()) {
+        $luba_link = "<span class='badge badge-warning'>⏳ Valmis</span>";
       } elseif($luba == 1) {
         $luba_link = "<span class='badge badge-success'>✓ Väljastatud</span>";
       }
@@ -72,11 +80,15 @@ $kask->execute();
             <td><?php echo asenda($t2nav); ?></td>
             <td><?php echo $luba_link; ?></td>
             <td>
+                <?php if(onAdmin()): ?>
                 <form method="POST" style="display: inline;">
                     <input type="hidden" name="kustuta_id" value="<?php echo $id; ?>" />
                     <input type="submit" value="🗑️ Kustuta" class="btn btn-danger"
                         onclick="return confirm('Kustuta osaleja?')" />
                 </form>
+                <?php else: ?>
+                -
+                <?php endif; ?>
             </td>
         </tr>
         <?php } ?>

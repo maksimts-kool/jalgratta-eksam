@@ -1,0 +1,154 @@
+<?php
+
+function alustaSessioon() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
+function onSissologitud() {
+    alustaSessioon();
+    return isset($_SESSION['kasutaja_id']) && isset($_SESSION['kasutajanimi']);
+}
+
+function onAdmin() {
+    alustaSessioon();
+    return onSissologitud() && isset($_SESSION['roll']) && $_SESSION['roll'] === 'admin';
+}
+
+function kasutajaRoll() {
+    alustaSessioon();
+    return isset($_SESSION['roll']) ? $_SESSION['roll'] : null;
+}
+
+function kasutajanimi() {
+    alustaSessioon();
+    return isset($_SESSION['kasutajanimi']) ? $_SESSION['kasutajanimi'] : null;
+}
+
+function kasutajaID() {
+    alustaSessioon();
+    return isset($_SESSION['kasutaja_id']) ? $_SESSION['kasutaja_id'] : null;
+}
+
+function sisenemine($yhendus, $kasutajanimi, $parool) {
+    $kask = $yhendus->prepare("SELECT id, kasutajanimi, parool, roll FROM kasutajad WHERE kasutajanimi = ?");
+    $kask->bind_param("s", $kasutajanimi);
+    $kask->execute();
+    $kask->bind_result($id, $nimi, $hash, $roll);
+    
+    if ($kask->fetch()) {
+        if (password_verify($parool, $hash)) {
+            $kask->close();
+            alustaSessioon();
+            
+            $_SESSION['kasutaja_id'] = $id;
+            $_SESSION['kasutajanimi'] = $nimi;
+            $_SESSION['roll'] = $roll;
+            
+            return [
+                'edukas' => true,
+                'sõnum' => 'Sisselogimine õnnestus!'
+            ];
+        }
+    }
+    
+    $kask->close();
+    return [
+        'edukas' => false,
+        'sõnum' => 'Vale kasutajanimi või parool!'
+    ];
+}
+
+function valjalogimine() {
+    alustaSessioon();
+    
+    $_SESSION = array();
+    
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time()-42000, '/');
+    }
+    
+    session_destroy();
+}
+
+function registreeriKasutaja($yhendus, $kasutajanimi, $parool, $paroolKinnitatud, $roll = 'user') {
+    if (empty($kasutajanimi) || strlen($kasutajanimi) < 3) {
+        return [
+            'edukas' => false,
+            'sõnum' => 'Kasutajanimi peab olema vähemalt 3 tähemärki!'
+        ];
+    }
+    
+    if (empty($parool) || strlen($parool) < 6) {
+        return [
+            'edukas' => false,
+            'sõnum' => 'Parool peab olema vähemalt 6 tähemärki!'
+        ];
+    }
+    
+    if ($parool !== $paroolKinnitatud) {
+        return [
+            'edukas' => false,
+            'sõnum' => 'Paroolid ei ühti!'
+        ];
+    }
+    
+    $kask = $yhendus->prepare("SELECT id FROM kasutajad WHERE kasutajanimi = ?");
+    $kask->bind_param("s", $kasutajanimi);
+    $kask->execute();
+    $kask->store_result();
+    
+    if ($kask->num_rows > 0) {
+        $kask->close();
+        return [
+            'edukas' => false,
+            'sõnum' => 'See kasutajanimi on juba kasutusel!'
+        ];
+    }
+    $kask->close();
+    
+    if (!in_array($roll, ['admin', 'user'])) {
+        $roll = 'user';
+    }
+    
+    $hash = password_hash($parool, PASSWORD_DEFAULT);
+    
+    $kask = $yhendus->prepare("INSERT INTO kasutajad (kasutajanimi, parool, roll) VALUES (?, ?, ?)");
+    $kask->bind_param("sss", $kasutajanimi, $hash, $roll);
+    
+    if ($kask->execute()) {
+        $kask->close();
+        return [
+            'edukas' => true,
+            'sõnum' => 'Kasutaja edukalt registreeritud!'
+        ];
+    } else {
+        $kask->close();
+        return [
+            'edukas' => false,
+            'sõnum' => 'Viga registreerimisel!'
+        ];
+    }
+}
+
+function nouaSisselogimist($redirect = 'login.php') {
+    if (!onSissologitud()) {
+        header("Location: $redirect");
+        exit();
+    }
+}
+
+function nouaAdminRolli($redirect = 'index.php') {
+    if (!onAdmin()) {
+        header("Location: $redirect");
+        exit();
+    }
+}
+
+function suunaKuiSissologitud($redirect = 'index.php') {
+    if (onSissologitud()) {
+        header("Location: $redirect");
+        exit();
+    }
+}

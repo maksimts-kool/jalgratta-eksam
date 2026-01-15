@@ -1,22 +1,43 @@
 <?php
 $lehepealkiri = "Avaleht";
 require_once("konf.php");
-require_once("header.php");
+require_once("auth.php");
 require_once("funktsioonid.php");
+require_once("header.php");
 
-// Statistika - kogus registreeritud
 $kask = $yhendus->prepare("SELECT COUNT(*) as kogus FROM jalgrattaeksam");
 $kask->bind_result($kogus);
 $kask->execute();
 $kask->fetch();
 $kask->close();
 
-// Statistika - edukalt läbinud
 $kask2 = $yhendus->prepare("SELECT COUNT(*) as lope FROM jalgrattaeksam WHERE luba=1");
 $kask2->bind_result($lope);
 $kask2->execute();
 $kask2->fetch();
 $kask2->close();
+
+$minuTulemus = null;
+if(onSissologitud()) {
+    $userId = kasutajaID();
+    $kask3 = $yhendus->prepare("SELECT id, eesnimi, perekonnanimi, teooriatulemus, slaalom, ringtee, t2nav, luba FROM jalgrattaeksam WHERE kasutaja_id=? LIMIT 1");
+    $kask3->bind_param("i", $userId);
+    $kask3->execute();
+    $kask3->bind_result($id, $eesnimi, $perekonnanimi, $teooriatulemus, $slaalom, $ringtee, $t2nav, $luba);
+    if($kask3->fetch()) {
+        $minuTulemus = [
+            'id' => $id,
+            'eesnimi' => $eesnimi,
+            'perekonnanimi' => $perekonnanimi,
+            'teooriatulemus' => $teooriatulemus,
+            'slaalom' => $slaalom,
+            'ringtee' => $ringtee,
+            't2nav' => $t2nav,
+            'luba' => $luba
+        ];
+    }
+    $kask3->close();
+}
 ?>
 
 <div class="container">
@@ -43,6 +64,61 @@ $kask2->close();
             <p style="margin-bottom: 0;">Eksamit läbinud</p>
         </div>
     </div>
+
+    <?php if(onSissologitud() && $minuTulemus): ?>
+    <h2>Minu Eksami Tulemus</h2>
+    <table>
+        <tr>
+            <th>Etapp</th>
+            <th>Staatus</th>
+        </tr>
+        <tr>
+            <td><strong>Teooriaeksam</strong></td>
+            <td>
+                <?php 
+                if($minuTulemus['teooriatulemus'] == -1) {
+                    echo "<span class='badge badge-warning'>⏳ Ootel</span>";
+                } else {
+                    echo $minuTulemus['teooriatulemus'] . "/10 punkti";
+                    if($minuTulemus['teooriatulemus'] >= 9) {
+                        echo " <span class='badge badge-success'>✓ Läbitud</span>";
+                    } else {
+                        echo " <span class='badge badge-danger'>✗ Ebaõnnestunud</span>";
+                    }
+                }
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Slaalom</strong></td>
+            <td><?php echo asenda($minuTulemus['slaalom']); ?></td>
+        </tr>
+        <tr>
+            <td><strong>Ringtee</strong></td>
+            <td><?php echo asenda($minuTulemus['ringtee']); ?></td>
+        </tr>
+        <tr>
+            <td><strong>Tänavasõit</strong></td>
+            <td><?php echo asenda($minuTulemus['t2nav']); ?></td>
+        </tr>
+        <tr>
+            <td><strong>Luba</strong></td>
+            <td>
+                <?php 
+                if($minuTulemus['luba'] == 1) {
+                    echo "<span class='badge badge-success'>✓ Väljastatud</span>";
+                } else {
+                    echo "<span class='badge badge-warning'>⏳ Ootel</span>";
+                }
+                ?>
+            </td>
+        </tr>
+    </table>
+    <?php elseif(onSissologitud()): ?>
+    <div class="info">
+        <strong>ℹ️ Teave:</strong> Sa ei ole veel eksamile registreeritud. Palun kontakteeru administraatoriga, et registreerida eksamile.
+    </div>
+    <?php endif; ?>
 
     <h2>Eksami etapid</h2>
     <table>
@@ -84,9 +160,11 @@ $kask2->close();
         </tr>
     </table>
 
+    <?php if(!onSissologitud()): ?>
     <h2>Alustamiseks</h2>
-    <p>Klõpsa navigatsioonile "<strong>Registreerimine</strong>" ja sisesta oma nimi!</p>
+    <p>Registreeri kasutaja ja logi sisse!</p>
     <a href="registreerimine.php" class="btn">Registreeri nüüd</a>
+    <?php endif; ?>
 </div>
 
 <?php require_once("footer.php"); ?>

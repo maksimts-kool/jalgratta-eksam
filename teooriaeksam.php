@@ -1,13 +1,20 @@
 <?php
 $lehepealkiri = "Teooriaeksam";
 require_once("konf.php");
+require_once("auth.php");
 require_once("funktsioonid.php");
+
+nouaSisselogimist('login.php?nouab_sisselogimist=1');
+
 require_once("header.php");
 
 $teade = "";
 $viga = "";
 
 if(onPostPäring() && !empty($_POST["teooriatulemus"]) && !empty($_POST["id"])){ 
+  if(!onAdmin()) {
+    $viga = "Ainult admin saab tulemusi sisestada!";
+  } else {
   $tulemus = $_POST["teooriatulemus"];
   $id = (int)$_POST["id"];
   
@@ -25,6 +32,7 @@ if(onPostPäring() && !empty($_POST["teooriatulemus"]) && !empty($_POST["id"])){
     
     $teade = "✓ Tulemus $tulemus sisestatud edukalt!";
     header("Refresh: 2");
+  }
   }
 }
 
@@ -74,6 +82,7 @@ while($kask->fetch()) {
         <tr>
             <td><?php echo turvTekst($osaleja['eesnimi']); ?></td>
             <td><?php echo turvTekst($osaleja['perekonnanimi']); ?></td>
+            <?php if(onAdmin()): ?>
             <td>
                 <form method="POST" style="display: flex; gap: 10px;">
                     <input type="hidden" name="id" value="<?php echo $osaleja['id']; ?>" />
@@ -83,6 +92,9 @@ while($kask->fetch()) {
                 <input type="submit" value="Sisesta" />
                 </form>
             </td>
+            <?php else: ?>
+            <td colspan="2">⏳ Ootel</td>
+            <?php endif; ?>
         </tr>
         <?php } ?>
     </table>
