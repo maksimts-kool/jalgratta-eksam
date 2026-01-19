@@ -96,13 +96,13 @@ require_once("header.php");
 
             <dt>🔒 Parool</dt>
             <dd>
-                <input type="password" name="parool" minlength="6" required placeholder="Vähemalt 6 tähemärki" />
+                <input type="password" name="parool" minlength="5" required placeholder="Vähemalt 5 tähemärki" />
                 <small>Vähemalt 6 tähemärki</small>
             </dd>
 
             <dt>🔒 Kinnita Parool</dt>
             <dd>
-                <input type="password" name="parool_kinnita" minlength="6" required
+                <input type="password" name="parool_kinnita" minlength="5" required
                     placeholder="Sisesta parool uuesti" />
                 <small>Sisesta sama parool uuesti</small>
             </dd>

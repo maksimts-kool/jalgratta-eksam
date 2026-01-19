@@ -91,10 +91,10 @@ function registreeriKasutaja($yhendus, $kasutajanimi, $parool, $paroolKinnitatud
         ];
     }
     
-    if (empty($parool) || strlen($parool) < 6) {
+    if (empty($parool) || strlen($parool) < 5) {
         return [
             'edukas' => false,
-            'sõnum' => 'Parool peab olema vähemalt 6 tähemärki!'
+            'sõnum' => 'Parool peab olema vähemalt 5 tähemärki!'
         ];
     }
     
