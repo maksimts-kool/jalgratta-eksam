@@ -1,4 +1,9 @@
 <?php
+/*
+ Registreerimise leht
+ Uute kasutajate registreerimine süsteemi
+*/
+
 $lehepealkiri = "Registreerimine";
 require_once("konf.php");
 require_once("auth.php");

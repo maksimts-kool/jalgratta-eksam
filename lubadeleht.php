@@ -1,4 +1,9 @@
 <?php
+/*
+  Lubade väljastamise leht
+  Admin saab väljastada jalgratta lubasid või kustutada osalejaid
+*/
+
 $lehepealkiri = "Lubade Väljastus";
 require_once("konf.php");
 require_once("auth.php");

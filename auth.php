@@ -1,4 +1,8 @@
 <?php
+/**
+ * Autentimise ja autoriseerimise funktsioonid
+ * Haldab kasutajate sisselogimist, väljalogiist, rollide kontrollimist ja sessioone
+ */
 
 function alustaSessioon() {
     if (session_status() === PHP_SESSION_NONE) {

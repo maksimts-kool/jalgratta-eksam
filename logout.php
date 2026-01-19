@@ -1,4 +1,9 @@
 <?php
+/*
+ Väljalogimine
+ Lõpetab kasutaja sessiooni ja suunab sisselogimise lehele
+*/
+
 require_once("auth.php");
 
 valjalogimine();

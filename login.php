@@ -1,4 +1,9 @@
 <?php
+/*
+ Sisselogimise leht
+ Võimaldab kasutajatel süsteemi siseneda
+*/
+
 $lehepealkiri = "Sisselogimine";
 require_once("konf.php");
 require_once("auth.php");

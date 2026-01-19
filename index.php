@@ -1,4 +1,9 @@
 <?php
+/*
+ Avaleht
+ Näitab statistikat, kasutaja tulemusi ja eksamite ülevaadet
+*/
+
 $lehepealkiri = "Avaleht";
 require_once("konf.php");
 require_once("auth.php");
@@ -116,7 +121,8 @@ if(onSissologitud()) {
     </table>
     <?php elseif(onSissologitud()): ?>
     <div class="info">
-        <strong>ℹ️ Teave:</strong> Sa ei ole veel eksamile registreeritud. Palun kontakteeru administraatoriga, et registreerida eksamile.
+        <strong>ℹ️ Teave:</strong> Sa ei ole veel eksamile registreeritud. Palun kontakteeru administraatoriga, et
+        registreerida eksamile.
     </div>
     <?php endif; ?>
 

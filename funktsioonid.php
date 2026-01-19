@@ -1,4 +1,8 @@
 <?php
+/**
+ * Üldised abifunktsioonid
+ * Sisaldab valideerimisfunktsioone, teksti töötlemist ja turvalisuse funktsioone
+ */
 
 function asenda($nr) { 
   if($nr == -1) {

@@ -1,4 +1,9 @@
 <?php
+/*
+ Slaalom katse leht
+ Admin saab sisestada slaalom katse tulemusi (korras/ebaõnnestunud)
+*/
+
 $lehepealkiri = "Slaalom";
 require_once("konf.php");
 require_once("auth.php");

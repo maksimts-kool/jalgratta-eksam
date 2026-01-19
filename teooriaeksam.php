@@ -1,4 +1,9 @@
 <?php
+/*
+ Teooriaeksami leht
+ Admin saab sisestada teooriaeksami tulemusi (0-10 punkti)
+*/
+
 $lehepealkiri = "Teooriaeksam";
 require_once("konf.php");
 require_once("auth.php");

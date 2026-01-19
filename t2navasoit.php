@@ -1,4 +1,9 @@
 <?php
+/*
+ Tänavasõidu katse leht
+ Admin saab sisestada tänavasõidu katse tulemusi (korras/ebaõnnestunud)
+*/
+
 $lehepealkiri = "Tänavasõit";
 require_once("konf.php");
 require_once("auth.php");

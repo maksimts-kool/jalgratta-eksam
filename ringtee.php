@@ -1,4 +1,9 @@
 <?php
+/*
+ Ringtee katse leht
+ Admin saab sisestada ringtee katse tulemusi (korras/ebaõnnestunud)
+*/
+
 $lehepealkiri = "Ringtee";
 require_once("konf.php");
 require_once("auth.php");

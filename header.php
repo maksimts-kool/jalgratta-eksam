@@ -33,22 +33,24 @@ if (!function_exists('onSissologitud')) {
             </div>
             <div style="text-align: right; color: white;">
                 <?php if(onSissologitud()): ?>
-                    <p style="margin: 5px 0;">
-                        👤 <strong><?php echo turvTekst(kasutajanimi()); ?></strong>
-                        <?php if(onAdmin()): ?>
-                            <span style="background-color: #e74c3c; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">ADMIN</span>
-                        <?php else: ?>
-                            <span style="background-color: #3498db; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">KASUTAJA</span>
-                        <?php endif; ?>
-                    </p>
-                    <p style="margin: 5px 0;">
-                        <a href="logout.php" style="color: #ffeb3b; text-decoration: none;">🚪 Logi välja</a>
-                    </p>
+                <p style="margin: 5px 0;">
+                    👤 <strong><?php echo turvTekst(kasutajanimi()); ?></strong>
+                    <?php if(onAdmin()): ?>
+                    <span
+                        style="background-color: #e74c3c; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">ADMIN</span>
+                    <?php else: ?>
+                    <span
+                        style="background-color: #3498db; padding: 2px 8px; border-radius: 3px; font-size: 0.8em;">KASUTAJA</span>
+                    <?php endif; ?>
+                </p>
+                <p style="margin: 5px 0;">
+                    <a href="logout.php" style="color: #ffeb3b; text-decoration: none;">🚪 Logi välja</a>
+                </p>
                 <?php else: ?>
-                    <p style="margin: 5px 0;">
-                        <a href="login.php" style="color: #ffeb3b; text-decoration: none;">🔐 Logi sisse</a> | 
-                        <a href="registreerimine.php" style="color: #ffeb3b; text-decoration: none;">📝 Registreeri</a>
-                    </p>
+                <p style="margin: 5px 0;">
+                    <a href="login.php" style="color: #ffeb3b; text-decoration: none;">🔐 Logi sisse</a> |
+                    <a href="registreerimine.php" style="color: #ffeb3b; text-decoration: none;">📝 Registreeri</a>
+                </p>
                 <?php endif; ?>
             </div>
         </div>
@@ -59,11 +61,11 @@ if (!function_exists('onSissologitud')) {
             <ul class="nav-menu">
                 <li><a href="index.php" class="nav-link">🏠 Avaleht</a></li>
                 <?php if(onSissologitud()): ?>
-                    <li><a href="teooriaeksam.php" class="nav-link">📚 Teooria</a></li>
-                    <li><a href="slaalom.php" class="nav-link">🏁 Slaalom</a></li>
-                    <li><a href="ringtee.php" class="nav-link">🔄 Ringtee</a></li>
-                    <li><a href="t2navasoit.php" class="nav-link">🛣️ Tänavasõit</a></li>
-                    <li><a href="lubadeleht.php" class="nav-link">📜 Lubad</a></li>
+                <li><a href="teooriaeksam.php" class="nav-link">📚 Teooria</a></li>
+                <li><a href="slaalom.php" class="nav-link">🏁 Slaalom</a></li>
+                <li><a href="ringtee.php" class="nav-link">🔄 Ringtee</a></li>
+                <li><a href="t2navasoit.php" class="nav-link">🛣️ Tänavasõit</a></li>
+                <li><a href="lubadeleht.php" class="nav-link">📜 Lubad</a></li>
                 <?php endif; ?>
             </ul>
         </div>
