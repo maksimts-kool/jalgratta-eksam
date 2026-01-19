@@ -43,25 +43,24 @@ if(onSissologitud()) {
 <div class="container">
     <h1>Tervist!</h1>
 
-    <div style="background-color: #3498db; color: white; padding: 30px; border-radius: 8px; margin: 20px 0;">
-        <h2 style="color: white; border: none; margin-top: 0;">Jalgratta Eksami Süsteem</h2>
-        <p style="color: #ecf0f1; margin-bottom: 0;">Tere tulemast! Siin saad registreeruda jalgratta eksamile ja
-            testida oma teadmisi.</p>
+    <div class="my-6 rounded-2xl bg-blue-600 px-8 py-7 text-white shadow-sm">
+        <h2 class="mt-0 mb-2 text-white">Jalgratta Eksami Süsteem</h2>
+        <p class="mb-0 text-blue-50">Tere tulemast! Siin saad registreeruda jalgratta eksamile ja testida oma teadmisi.</p>
     </div>
 
     <h2>Statistika</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
-        <div style="background-color: #d5f4e6; padding: 20px; border-radius: 8px; text-align: center;">
-            <h3 style="color: #27ae60; font-size: 2em; margin: 0;">
+    <div class="my-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
+            <h3 class="text-3xl font-semibold text-emerald-700">
                 <?php echo $kogus; ?>
             </h3>
-            <p style="margin-bottom: 0;">Registreeritud osalejat</p>
+            <p class="mb-0 text-emerald-900/80">Registreeritud osalejat</p>
         </div>
-        <div style="background-color: #d6eaf8; padding: 20px; border-radius: 8px; text-align: center;">
-            <h3 style="color: #2980b9; font-size: 2em; margin: 0;">
+        <div class="rounded-2xl border border-sky-200 bg-sky-50 p-6 text-center">
+            <h3 class="text-3xl font-semibold text-sky-700">
                 <?php echo $lope; ?>
             </h3>
-            <p style="margin-bottom: 0;">Eksamit läbinud</p>
+            <p class="mb-0 text-sky-900/80">Eksamit läbinud</p>
         </div>
     </div>
 

@@ -68,9 +68,8 @@ require_once("header.php");
         </dl>
     </form>
 
-    <div style="margin-top: 20px; text-align: center;">
-        <p>Pole veel kasutajat? <a href="registreerimine.php" class="btn"
-                style="display: inline-block; padding: 10px 20px;">Registreeri</a></p>
+    <div class="mt-6 text-center">
+        <p>Pole veel kasutajat? <a href="registreerimine.php" class="btn">Registreeri</a></p>
     </div>
 </div>
 

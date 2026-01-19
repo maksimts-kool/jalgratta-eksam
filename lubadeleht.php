@@ -61,7 +61,7 @@ $kask->execute();
       $luba_link = ".";
       
       if($voib_lubada && onAdmin()) {
-        $luba_link = "<form method='POST' style='display:inline;'>" .
+        $luba_link = "<form method='POST' class='inline'>" .
                      "<input type='hidden' name='vormistamine_id' value='$id' />" .
                      "<input type='submit' value='📜 Väljasta luba' class='btn btn-info' />" .
                      "</form>";
@@ -81,7 +81,7 @@ $kask->execute();
             <td><?php echo $luba_link; ?></td>
             <td>
                 <?php if(onAdmin()): ?>
-                <form method="POST" style="display: inline;">
+                <form method="POST" class="inline">
                     <input type="hidden" name="kustuta_id" value="<?php echo $id; ?>" />
                     <input type="submit" value="🗑️ Kustuta" class="btn btn-danger"
                         onclick="return confirm('Kustuta osaleja?')" />

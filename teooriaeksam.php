@@ -84,9 +84,9 @@ while($kask->fetch()) {
             <td><?php echo turvTekst($osaleja['perekonnanimi']); ?></td>
             <?php if(onAdmin()): ?>
             <td>
-                <form method="POST" style="display: flex; gap: 10px;">
+              <form method="POST" class="flex items-center gap-2">
                     <input type="hidden" name="id" value="<?php echo $osaleja['id']; ?>" />
-                    <input type="number" name="teooriatulemus" min="0" max="10" required style="width: 80px;" />
+                <input type="number" name="teooriatulemus" min="0" max="10" required class="w-20" />
             </td>
             <td>
                 <input type="submit" value="Sisesta" />

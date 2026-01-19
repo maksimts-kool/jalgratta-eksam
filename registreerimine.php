@@ -113,9 +113,8 @@ require_once("header.php");
         </dl>
     </form>
 
-    <div style="margin-top: 20px; text-align: center;">
-        <p>Juba on kasutaja? <a href="login.php" class="btn" style="display: inline-block; padding: 10px 20px;">Logi
-                sisse</a></p>
+    <div class="mt-6 text-center">
+        <p>Juba on kasutaja? <a href="login.php" class="btn">Logi sisse</a></p>
     </div>
 </div>
 

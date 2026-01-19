@@ -66,11 +66,11 @@ while($kask->fetch()) {
             <td><?php echo htmlspecialchars($osaleja['perekonnanimi']); ?></td>
             <td>
                 <?php if(onAdmin()): ?>
-                <form method="POST" style="display: flex; gap: 10px;">
+              <form method="POST" class="flex items-center gap-2">
                     <input type="hidden" name="korras_id" value="<?php echo $osaleja['id']; ?>" />
                     <input type="submit" value="✓ Korras" class="btn btn-info" />
                 </form>
-                <form method="POST" style="display: flex; gap: 10px;">
+              <form method="POST" class="flex items-center gap-2">
                     <input type="hidden" name="vigane_id" value="<?php echo $osaleja['id']; ?>" />
                     <input type="submit" value="✗ Ebaõnnestunud" class="btn btn-danger" />
                 </form>
