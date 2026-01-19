@@ -4,7 +4,7 @@
  * Sisaldab valideerimisfunktsioone, teksti töötlemist ja turvalisuse funktsioone
  */
 
-function asenda($nr) { 
+function asenda($nr) { // teisendab numbrid värvilisteks badge'ideks
   if($nr == -1) {
     return "<span class='badge badge-warning'>⏳ Tegemata</span>";
   } 
@@ -17,7 +17,7 @@ function asenda($nr) {
   return "Tundmatu"; 
 }
 
-function valideeriTeooriaTulemus($tulemus) {
+function valideeriTeooriaTulemus($tulemus) { // kontrollib, kas teooria tulemus on 9-10 punkti
   $tulemus = (int)$tulemus;
   
   if($tulemus < 0 || $tulemus > 10) {
@@ -40,7 +40,7 @@ function valideeriTeooriaTulemus($tulemus) {
   ];
 }
 
-function valideeriNimi($nimi) {
+function valideeriNimi($nimi) { // kontrollib, kas nimi on vähemalt 3 tähemärki
   $nimi = trim($nimi);
   
   if(empty($nimi)) {
@@ -63,7 +63,7 @@ function valideeriNimi($nimi) {
   ];
 }
 
-function kontrollilubaMögus($teooriatulemus, $slaalom, $ringtee, $t2nav, $luba) {
+function kontrollilubaMögus($teooriatulemus, $slaalom, $ringtee, $t2nav, $luba) { // kontrollib, kas kõik nõuded loa saamiseks on täidetud
   $voib_lubada = (
     $teooriatulemus >= 9 && 
     $slaalom == 1 && 
@@ -75,7 +75,7 @@ function kontrollilubaMögus($teooriatulemus, $slaalom, $ringtee, $t2nav, $luba)
   return $voib_lubada;
 }
 
-function kuvaTeade($tyyp, $sisu) {
+function kuvaTeade($tyyp, $sisu) { // näitab kasutajale teateid (viga, edukas, info)
   if(empty($sisu)) {
     return '';
   }
@@ -91,22 +91,22 @@ function kuvaTeade($tyyp, $sisu) {
   return "<div class='$klass'>$sisu</div>";
 }
 
-function turvTekst($tekst) {
+function turvTekst($tekst) { // on vaja et PHP ei tõlgendaks HTML silte
   return htmlspecialchars($tekst, ENT_QUOTES, 'UTF-8');
 }
 
-function onPostPäring() {
+function onPostPäring() { // kontrollib, kas päring on POST meetodiga
   return $_SERVER["REQUEST_METHOD"] == "POST";
 }
 
-function getPOST($võti, $vaikeVäärtus = '') {
+function getPOST($võti, $vaikeVäärtus = '') { // võtab turvaliselt väärtuse POST massivist, et kasutaja ei saaks XSS rünnakut teha
   if(isset($_POST[$võti])) {
     return trim($_POST[$võti]);
   }
   return $vaikeVäärtus;
 }
 
-function getGET($võti, $vaikeVäärtus = '') {
+function getGET($võti, $vaikeVäärtus = '') { // võtab turvaliselt väärtuse GET massivist, et kasutaja ei saaks XSS rünnakut teha
   if(isset($_GET[$võti])) {
     return trim($_GET[$võti]);
   }
